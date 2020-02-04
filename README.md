@@ -2,37 +2,37 @@
 
 ## How to use
 
-## Build and push the app-operator image to a public registry such as quay.io
+### Build and push the app-operator image to a public registry such as quay.io
 $ operator-sdk build <username>/app-operator
 
-## Push image
+### Push image
 $ docker push <username>/app-operator
 
-## Update the operator manifest to use the built image name (if you are performing these steps on OSX, see note below)
+### Update the operator manifest to use the built image name (if you are performing these steps on OSX, see note below)
 $ sed -i 's|REPLACE_IMAGE|<username>/app-operator|g' deploy/operator.yaml
-## On OSX use:
+### On OSX use:
 $ sed -i "" 's|REPLACE_IMAGE|<username>/app-operator|g' deploy/operator.yaml
 
-## Setup Service Account
+### Setup Service Account
 $ kubectl create -f deploy/service_account.yaml
-## Setup RBAC
+### Setup RBAC
 $ kubectl create -f deploy/role.yaml
 $ kubectl create -f deploy/role_binding.yaml
-## Setup the CRD
+### Setup the CRD
 $ kubectl create -f deploy/crds/app.example.com_appservices_crd.yaml
-## Deploy the app-operator
+### Deploy the app-operator
 $ kubectl create -f deploy/operator.yaml
 
-## Create an AppService CR
-## The default controller will watch for AppService objects and create a pod for each CR
+### Create an AppService CR
+### The default controller will watch for AppService objects and create a pod for each CR
 $ kubectl create -f deploy/crds/app.example.com_v1alpha1_appservice_cr.yaml
 
-## Verify that a pod is created
+### Verify that a pod is created
 $ kubectl get pod -l app=example-appservice
 NAME                     READY     STATUS    RESTARTS   AGE
 example-appservice-pod   1/1       Running   0          1m
 
-## Test the new Resource Type
+### Test the new Resource Type
 $ kubectl describe appservice example-appservice
 Name:         example-appservice
 Namespace:    myproject
@@ -50,7 +50,7 @@ Metadata:
 Spec:
   Size:  3
 
-## Cleanup
+### Cleanup
 $ kubectl delete -f deploy/crds/app.example.com_v1alpha1_appservice_cr.yaml
 $ kubectl delete -f deploy/operator.yaml
 $ kubectl delete -f deploy/role.yaml
